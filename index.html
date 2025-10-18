@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,23 +10,23 @@
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col items-center justify-center p-6">
 
   <h1 class="text-3xl md:text-5xl font-bold text-center mb-4 text-amber-400">🔥 CICAL Burn Tracker</h1>
-  <p class="text-center text-gray-400 mb-8">Melacak total supply dan token terbakar secara real-time</p>
+  <p class="text-center text-gray-400 mb-8">Track total supply and burned tokens in real time</p>
 
   <div class="bg-gray-800 rounded-2xl shadow-xl p-6 w-full max-w-2xl">
-    <div id="loading" class="text-center text-lg text-gray-400">Mengambil data dari blockchain...</div>
+    <div id="loading" class="text-center text-lg text-gray-400">Fetching data from blockchain...</div>
     <div id="content" class="hidden">
-      <p class="text-lg mb-2">💎 <strong>Total Supply Awal:</strong> 1,000,000,000 CICAL</p>
-      <p class="text-lg mb-2">🔥 <strong>Token Terbakar:</strong> <span id="burned" class="text-red-400">0</span> CICAL</p>
-      <p class="text-lg mb-2">🔹 <strong>Supply Tersisa:</strong> <span id="remaining" class="text-green-400">0</span> CICAL</p>
-      <p class="text-lg mb-2">🪙 <strong>Kontrak:</strong> <a href="https://bscscan.com/token/0xFAF994EBf5598BDC70f157957957333Ffc687b09" class="text-blue-400 hover:underline" target="_blank">0xFAF994EBf5598BDC70f157957957333Ffc687b09</a></p>
-      <p class="text-lg mb-6">📊 Data diupdate setiap 30 detik</p>
+      <p class="text-lg mb-2">💎 <strong>Initial Total Supply:</strong> 1,000,000,000 CICAL</p>
+      <p class="text-lg mb-2">🔥 <strong>Burned Tokens:</strong> <span id="burned" class="text-red-400">0</span> CICAL</p>
+      <p class="text-lg mb-2">🔹 <strong>Remaining Supply:</strong> <span id="remaining" class="text-green-400">0</span> CICAL</p>
+      <p class="text-lg mb-2">🪙 <strong>Contract:</strong> <a href="https://bscscan.com/token/0xFAF994EBf5598BDC70f157957957333Ffc687b09" class="text-blue-400 hover:underline" target="_blank">0xFAF994EBf5598BDC70f157957957333Ffc687b09</a></p>
+      <p class="text-lg mb-6">📊 Data updates every 30 seconds</p>
 
       <canvas id="burnChart" height="100"></canvas>
     </div>
   </div>
 
   <footer class="text-gray-500 mt-10 text-center text-sm">
-    © 2025 CICAL Project — Transparansi. Komunitas. Pertumbuhan. 💫
+    © 2025 CICAL Project — Transparency. Community. Growth. 💫
   </footer>
 
   <script>
@@ -39,7 +39,7 @@
       const url = `https://api.etherscan.io/v2/api?chainid=56&module=stats&action=tokensupply&contractaddress=${CONTRACT}&apikey=${API_KEY}`;
       const res = await fetch(url);
       const data = await res.json();
-      if (data.status !== "1") throw new Error("Gagal memuat data");
+      if (data.status !== "1") throw new Error("Failed to load data");
       const raw = parseFloat(data.result) / (10 ** DECIMALS);
       return raw;
     }
@@ -58,7 +58,7 @@
 
         updateChart(burned, remaining);
       } catch (e) {
-        document.getElementById("loading").textContent = "⚠️ Gagal mengambil data.";
+        document.getElementById("loading").textContent = "⚠️ Failed to fetch data.";
       }
     }
 
@@ -69,7 +69,7 @@
       burnChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['🔥 Terbakar', '💎 Tersisa'],
+          labels: ['🔥 Burned', '💎 Remaining'],
           datasets: [{
             data: [burned, remaining],
             backgroundColor: ['#ef4444', '#10b981']
@@ -84,7 +84,7 @@
     }
 
     updateData();
-    setInterval(updateData, 30000); // update tiap 30 detik
+    setInterval(updateData, 30000); // update every 30 seconds
   </script>
 
 </body>
